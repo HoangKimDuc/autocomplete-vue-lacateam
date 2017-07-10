@@ -1,174 +1,112 @@
-//import axios from 'axios';
 export default {
-        template:`
-    <div class="has-feedback dropdown" :class="{open : showlist}">
-        <input type="text" class="form-control dropdown-toggle" data-toggle="dropdown" id="search"
-        :placeholder="placeholder" 
-        v-model="keyword"
-        @keyup="keyup"
-        @click="showlist=(items.length > 0 ? true : false)">
-        <span class="glyphicon glyphicon-search form-control-feedback text-muted"></span>
-        <ul class="dropdown-menu">
-           <li v-for="item in items">
-            <a href="#"
-            @click="go(item)" 
-            @keyup="keyup"
-            @keyup.enter="go(item)">
-            <slot :text="item">
-                <h4>{{item.value?item.value:item.name}}</h4>
-            </slot>
-
-            </a>
-        </li>
+    template: `<nav :class="[navClass]">
+        <ul class="pagination justify-content-center" :class="[ulClass]">
+            <li v-if="showPrevious()" :class="[liClass, { 'disabled' : currentPage <= 1 }]" class="page-item">
+                <a class="page-link" href="#" v-if="currentPage <= 1">
+                    <span aria-hidden="true">{{ config.previousText }}</span>
+                </a>
+                <a class="page-link" href="#" v-if="currentPage > 1 " :aria-label="config.ariaPrevious" @click.prevent="changePage(currentPage - 1)">
+                    <span aria-hidden="true">{{ config.previousText }}</span>
+                </a>
+            </li>
+            <li v-for="num in array" :class="[liClass, { 'active': num === currentPage }]" class="page-item">
+                <a class="page-link" href="#" @click.prevent="changePage(num)">{{ num }}</a>
+            </li>
+            <li v-if="showNext()" :class="[liClass, { 'disabled' : currentPage === lastPage || lastPage === 0 }]" class="page-item">
+                <a class="page-link" href="#" v-if="currentPage === lastPage || lastPage === 0">
+                    <span aria-hidden="true">{{ config.nextText }}</span>
+                </a>
+                <a class="page-link" href="#" v-if="currentPage < lastPage" :aria-label="config.ariaNext" @click.prevent="changePage(currentPage + 1)">
+                    <span aria-hidden="true">{{ config.nextText }}</span>
+                </a>
+            </li>
         </ul>
-        <style>
-     :root {
-        --bg-color-hover: #650065;
-    }
-
-    .dropdown-menu {
-        padding: 0;
-        border: none;
-        width:100%;
-    }
-
-    .dropdown-menu>li {
-        border-bottom: 1px solid #ddd;
-    }
-
-    .dropdown-menu>li>a {
-        list-style: none;
-        padding: 5px 10px;
-        cursor: pointer;
-        border-top: 1px solid #ddd;
-
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .dropdown-menu>li>a:hover,
-    .dropdown-menu>li>a:focus {
-        background-color: var(--bg-color-hover);
-        color: #ffffff;
-    }
-</style>
-    </div>`,
-        props: {
-            url: {
-                type: String,
-                required: true
-            },
-            placeholder: {
-                type: String,
-                default: 'Search'
-            },
-            limit:{
-                type:Number,
-                default: 4
-            },
-            callbackdata: {
-                type: Function,
-                required: true
-            },
-            callbackdataselected: {
-                type: Function,
-                required: true
-            },
-            bgcolorselect: {
-                type: String,
-                default: '#650065'
-            }
+    </nav>`,
+    props: {
+        total: {
+            type: Number,
+            required: true
         },
-        components:{
-            'templatedata':{
-                props:{
-                    item:{
-                        type:Object,
-                        default:{}
-                    }
-                },
-                template: '<h1>{{item.name}}</h1>',
-                mounted:function(){
-                    console.log(this);
-                }
-            }
+        pageSize: {
+            type: Number,
+            required: true
         },
-        data() {
-            return {
-                items: [],
-                index: -1,
-                showlist: false,
-                keyword: '',
-            }
+        callback: {
+            type: Function,
+            required: true
         },
-        mounted: function () {
-            this.setOption();
+        options: {
+            type: Object
         },
-        watch: {
-            keyword: function (val) {
-                if (this.keyword.length > 0)
-                    this.search();
-                else
-                    this.items={};
-            },
-            items: function (val) {
-                this.showlist = this.items.length > 0 ? true : false;
-                //
-            },
-            showlist: function(){
-                if(!this.showList)
-                    this.index=-1;
-            },
-            index: function(){
-                if(this.index==-1){
-                    $('#search').focus();
-                    return;
-                }
-                $('.dropdown-menu>li>a')[this.index].focus();
-            }
+        navClass:{
+            type: String,
+            default: ""
         },
-        methods: {
-            keyup:function(e) {
-                let key = e.keyCode;
-                // Disable when list isn't showing up
-                if (this.showList==false) return;
-                switch (key) {
-                    case 40: //down
-                        if(this.index<this.items.length-1)
-                             this.index++;
-                       break;
-                    case 38: //up
-                        if(this.index>-1)
-                              this.index--;
-                        break;
-                    // case 13: //enter
-                    //     this.selectList(this.json[this.focusList])
-                    //     this.showList = false;
-                    //     break;
-                    case 27: //esc
-                        this.showList = false;
-                        break;
-                }
-            },
-            search: function () {
-                var vm = this;
-                axios.get(this.url+"?keyword="+this.keyword
-                    +"&&limit="+this.limit
-                ).then(function (response) {
-                    vm.items = response.data;
-                    vm.callbackdata(response.data);
-                }).catch(function (e) {
-                    console.log(e);
-                });
-            },
-            setOption: function () {
-                $(':root').css('--bg-color-hover', this.bgcolorselect);
-            },
-            focusEnter: function () {
-                this.num_focus = -1;
-                $('#search').focus();
-            },
-            go: function (data) {
-                this.callbackdataselected(data);
+        ulClass:{
+            type: String,
+            default: ""
+        },
+        liClass:{
+            type: String,
+            default: ""
+        }
+    },
+    data() {
+        return { currentPage: 1 }
+    },
+    computed: {
+        _total() { return this.total },
+        _pageSize() { return this.pageSize },
+        lastPage() {
+            let _total = this._total / this._pageSize;
+            if (_total < 1)
+                return 1;
+
+            if (_total % 1 != 0)
+                return parseInt(_total + 1);
+
+            return _total;
+        },
+        array() {
+
+            let _from = this.currentPage - this.config.offset;
+            if (_from < 1)
+                _from = 1;
+
+            let _to = _from + (this.config.offset * 2);
+            if (_to >= this.lastPage)
+                _to = this.lastPage;
+
+            let _arr = [];
+            while (_from <= _to) {
+                _arr.push(_from);
+                _from++;
             }
+
+            return _arr;
+        },
+        config() {
+            return Object.assign({
+                offset: 2,
+                ariaNext: 'Próximo',
+                ariaPrevious: 'Anterior',
+                previousText: '«',
+                nextText: '»',
+                alwaysShowPrevNext: true
+            }, this.options);
+        }
+    },
+    methods: {
+        showPrevious() {
+            return this.config.alwaysShowPrevNext || this.currentPage > 1;
+        },
+        showNext() {
+            return this.config.alwaysShowPrevNext || this.currentPage < this.lastPage;
+        },
+        changePage(page) {
+            if (this.currentPage === page) return;
+            this.currentPage = page;
+            this.callback(page);
         }
     }
+};
