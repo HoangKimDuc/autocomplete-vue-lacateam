@@ -15,6 +15,9 @@
   ],
   "author": "itcioci",
   "license": "MIT",
+  "engines": {
+  "node": ">=4.2.4"
+  },
   "bugs": {
     "url": "https://github.com/hoangkimducduc/vue-autocomplete-lacateam/issues"
   },
