@@ -15,11 +15,9 @@ export default {
             <slot :text="item">
                 <h4>{{item.value?item.value:item.name}}</h4>
             </slot>
-
             </a>
         </li>
         </ul>
- 
     </div>`,
         props: {
             url: {
@@ -38,27 +36,9 @@ export default {
                 type: Function,
                 required: true
             },
-            callbackdataselected: {
-                type: Function,
-                required: true
-            },
             bgcolorselect: {
                 type: String,
                 default: '#650065'
-            }
-        },
-        components:{
-            'templatedata':{
-                props:{
-                    item:{
-                        type:Object,
-                        default:{}
-                    }
-                },
-                template: '<h1>{{item.name}}</h1>',
-                mounted:function(){
-                    console.log(this);
-                }
             }
         },
         data() {
@@ -70,7 +50,9 @@ export default {
             }
         },
         mounted: function () {
+            require('./style.css');
             this.setOption();
+
         },
         watch: {
             keyword: function (val) {
@@ -124,7 +106,7 @@ export default {
                     +"&&limit="+this.limit
                 ).then(function (response) {
                     vm.items = response.data;
-                    vm.callbackdata(response.data);
+                    // vm.callbackdata(response.data);
                 }).catch(function (e) {
                     console.log(e);
                 });
@@ -133,11 +115,12 @@ export default {
                 $(':root').css('--bg-color-hover', this.bgcolorselect);
             },
             focusEnter: function () {
-                this.num_focus = -1;
+                this.index = -1;
                 $('#search').focus();
             },
             go: function (data) {
-                this.callbackdataselected(data);
+                this.focusEnter();
+                this.callbackdata(data);
             }
         }
     }
