@@ -4,7 +4,7 @@ export default {
         :placeholder="placeholder" 
         v-model="keyword"
         @keyup="keyup"
-        @click="showlist=(items.length > 0 ? true : false)">
+        @focus="showlist=(items.length > 0 ? true : false)">
         <span class="glyphicon glyphicon-search form-control-feedback text-muted"></span>
         <ul class="dropdown-menu">
            <li v-for="item in items">
@@ -55,9 +55,14 @@ export default {
 
         },
         watch: {
-            keyword: function (val) {
-                if (this.keyword.length > 0)
+            keyword: function () {
+                if (this.keyword.length > 0){
                     this.search();
+                    if(this.items.length>0){
+                        if(!$(".dropdown").hasClass('open'))
+                            $(".dropdown-toggle").dropdown("toggle");
+                    }
+                }
                 else
                     this.items={};
             },
@@ -80,6 +85,7 @@ export default {
         methods: {
             keyup:function(e) {
                 let key = e.keyCode;
+                console.log(key);
                 // Disable when list isn't showing up
                 if (this.showList==false) return;
                 switch (key) {
@@ -91,10 +97,6 @@ export default {
                         if(this.index>-1)
                               this.index--;
                         break;
-                    // case 13: //enter
-                    //     this.selectList(this.json[this.focusList])
-                    //     this.showList = false;
-                    //     break;
                     case 27: //esc
                         this.showList = false;
                         break;
