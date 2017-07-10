@@ -59,3 +59,4 @@ new Vue({
 | :-------------------| :-------| :-----------| :-------
 | bgcolorselect       | String  | "#650065"   | Background Color when select and focus data
 | placeholder         | String  | Search      | PlaceHolder
+| limit               | Number  | 3           | Limit

@@ -30,7 +30,7 @@ export default {
             },
             limit:{
                 type:Number,
-                default: 4
+                default: 3
             },
             callbackdata: {
                 type: Function,
