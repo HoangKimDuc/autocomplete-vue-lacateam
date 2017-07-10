@@ -85,7 +85,6 @@ export default {
         methods: {
             keyup:function(e) {
                 let key = e.keyCode;
-                console.log(key);
                 // Disable when list isn't showing up
                 if (this.showList==false) return;
                 switch (key) {
