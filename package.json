@@ -1,5 +1,5 @@
 {
-  "name": "autocomplete-lacateam",
+  "name": "autocomplete-vue-lacateam",
   "description": "A Vue.js project",
   "author": "hoangkimducduc <kimduc10a@gmail.com>",
   "scripts": {
@@ -12,14 +12,14 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hoangkimducduc/vue-autocomplete-lacateam.git"
+    "url": "git+https://github.com/hoangkimducduc/autocomplete-vue-lacateam.git"
   },
   "keywords": [
-    "vue-autocomplete-lacateam"
+    "autocomplete-vue-lacateam"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hoangkimducduc/vue-autocomplete-lacateam/issues"
+    "url": "https://github.com/hoangkimducduc/autocomplete-vue-lacateam/issues"
   },
-  "homepage": "https://github.com/hoangkimducduc/vue-autocomplete-lacateam#readme"
+  "homepage": "https://github.com/hoangkimducduc/autocomplete-vue-lacateam#readme"
 }

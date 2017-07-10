@@ -1,4 +1,4 @@
-# vue-autocomplete-lacateam
+# autocomplete-vue-lacateam
 AutoComplete VueJs 2
 
 * [Vue.js](http://vuejs.org/) (tested with 2.x)
@@ -7,12 +7,12 @@ AutoComplete VueJs 2
 ### Installation
 
 ```bash
-$ npm install --save autocomplete-lacateam
+$ npm install --save autocomplete-vue-lacateam
 ```
 
 ### Example
 ```js
-import autocomplete from 'autocomplete-lacateam'
+import autocomplete from 'autocomplete-vue-lacateam'
     
 new Vue({
   el: '#app',,
