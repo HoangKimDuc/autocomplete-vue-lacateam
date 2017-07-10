@@ -19,38 +19,7 @@ export default {
             </a>
         </li>
         </ul>
-        <style>
-     :root {
-        --bg-color-hover: #650065;
-    }
-
-    .dropdown-menu {
-        padding: 0;
-        border: none;
-        width:100%;
-        max-height: 300px;
-        overflow-y: auto;
-    }
-
-    .dropdown-menu>li {
-        border-bottom: 1px solid #ddd;
-    }
-
-    .dropdown-menu>li>a {
-        list-style: none;
-        padding: 5px 10px;
-        cursor: pointer;
-        border-top: 1px solid #ddd;
-
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .dropdown-menu>li>a:hover,
-    .dropdown-menu>li>a:focus {
-        background-color: var(--bg-color-hover);
-        color: #ffffff;
-    }
-</style>
+ 
     </div>`,
         props: {
             url: {
@@ -172,3 +141,4 @@ export default {
             }
         }
     }
+    
