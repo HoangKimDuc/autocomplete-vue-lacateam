@@ -2,7 +2,7 @@
   "name": "vue-autocomplete-lacateam",
   "description": "A Vue.js project",
   "author": "hoangkimducduc <kimduc10a@gmail.com>",
-  "private": true,
+  "private": false,
   "scripts": {
     "watchify": "watchify -vd -p browserify-hmr -e src/main.js -o dist/build.js",
     "serve": "http-server -o -s -c 1 -a localhost",
@@ -10,9 +10,6 @@
     "build": "cross-env NODE_ENV=production browserify -g envify src/main.js | uglifyjs -c warnings=false -m > dist/build.js"
   },
   "dependencies": {
-    "axios": "^0.16.2",
-    "bootstrap": "^3.3.7",
-    "jquery": "^3.2.1",
     "vue": "^2.0.1"
   },
   "devDependencies": {
@@ -29,6 +26,15 @@
     "vueify": "^9.1.0",
     "watchify": "^3.4.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoangkimducduc/vue-autocomplete-lacateam.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hoangkimducduc/vue-autocomplete-lacateam/issues"
+  },
+  "homepage": "https://github.com/hoangkimducduc/vue-autocomplete-lacateam#readme",
   "browserify": {
     "transform": [
       "vueify",
