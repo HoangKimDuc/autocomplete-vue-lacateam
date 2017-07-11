@@ -36,7 +36,12 @@ new Vue({
 
 ```html
 <body id="app">
-  <autocomplete :url="url" :placeholder="placeholder" :callbackdata="callbackdata" :bgcolorselect="bgcolorselect">
+  <autocomplete 
+  url="url" 
+  placeholder="placeholder" 
+  limit="5"
+  :callbackdata="callbackdata" 
+  bgcolorselect="bgcolorselect">
    <template scope="item">
       <h4>{{ item.text.name }}</h4>
       <p>{{ item.text.email }}</p>
@@ -52,11 +57,15 @@ new Vue({
 | Name          | Type     | Default | Required | Description
 | :------------ | :--------| :-------| :--------| :-----------
 | url           | String   |         | true     | Total itens in server side
-| callback      | Function |         | true     | Callback function used to load data for selected data
+| callbackdata  | Function |         | true     | Returns the selected result
 
 ##### Options
 | Name                | String  | Default     | Description
 | :-------------------| :-------| :-----------| :-------
 | bgcolorselect       | String  | "#650065"   | Background Color when select and focus data
-| placeholder         | String  | Search      | PlaceHolder
-| limit               | Number  | 3           | Limit
+| placeholder         | String  | "Search"    | PlaceHolder
+| limit               | String  | "3"         | Limit
+| fielddatashow       | String  | "name"      | Data show in input
+| start               | String  | "3"         | Keyword length to start searching
+| icon                | String  | "glyphicon glyphicon-search text-muted" | icon of the input control
+| iconleft            | String  | "false"     | By default, the icon on the right is equivalent to inconleft = "true"  

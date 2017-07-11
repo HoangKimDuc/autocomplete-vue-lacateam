@@ -1,11 +1,12 @@
 export default {
-        template:`  <div class="has-feedback dropdown" :class="{open : showlist}">
+        template:`  <div class="has-feedback dropdown" :class="{open:showlist}">
         <input type="text" class="form-control dropdown-toggle" data-toggle="dropdown" id="search"
         :placeholder="placeholder" 
         v-model="keyword"
+        @input="input"
         @keyup="keyup"
         @focus="showlist=(items.length > 0 ? true : false)">
-        <span class="glyphicon glyphicon-search form-control-feedback text-muted"></span>
+        <span class="form-control-feedback" :class="icon"></span>
         <ul class="dropdown-menu">
            <li v-for="item in items">
             <a href="#"
@@ -28,18 +29,35 @@ export default {
                 type: String,
                 default: 'Search'
             },
+            start:{
+                type:String,
+                default: '3'
+            },
             limit:{
-                type:Number,
-                default: 3
+                type:String,
+                default: '3'
             },
             callbackdata: {
                 type: Function,
-                required: true
+                default: null
+            },
+            fielddatashow:{
+                type:String,
+                default: 'name'
             },
             bgcolorselect: {
                 type: String,
                 default: '#650065'
+            },
+            icon: {
+                type: String,
+                default: 'glyphicon glyphicon-search text-muted'
+            },
+            iconleft:{
+                type: String,
+                default: 'false'
             }
+
         },
         data() {
             return {
@@ -47,6 +65,7 @@ export default {
                 index: -1,
                 showlist: false,
                 keyword: '',
+                itemselected:{}
             }
         },
         mounted: function () {
@@ -54,17 +73,18 @@ export default {
             this.setOption();
 
         },
-        watch: {
+        watch: {            
             keyword: function () {
-                if (this.keyword.length > 0){
+                
+               if (this.keyword.length >= this.start){
                     this.search();
                     if(this.items.length>0){
                         if(!$(".dropdown").hasClass('open'))
                             $(".dropdown-toggle").dropdown("toggle");
                     }
-                }
-                else
+                }else{
                     this.items={};
+                }
             },
             items: function (val) {
                 this.showlist = this.items.length > 0 ? true : false;
@@ -83,6 +103,12 @@ export default {
             }
         },
         methods: {
+            keywordchange:function(){
+                
+            },
+            input:function(){
+                //this.keywordchange();
+            },
             keyup:function(e) {
                 let key = e.keyCode;
                 // Disable when list isn't showing up
@@ -95,6 +121,12 @@ export default {
                     case 38: //up
                         if(this.index>-1)
                               this.index--;
+                        break;
+                    case 13:
+                        if(this.callbackdata)
+                            {
+                                this.callbackdata(this.itemselected);
+                            }
                         break;
                     case 27: //esc
                         this.showList = false;
@@ -114,6 +146,14 @@ export default {
             },
             setOption: function () {
                 $(':root').css('--bg-color-hover', this.bgcolorselect);
+                if(this.iconleft=='true')
+                {
+                    $(':root').css('--num-padding-left', '45px');
+                    $(':root').css('--num-padding-right', '12px');
+                    $(':root').css('--align-left', '0px');
+                    $(':root').css('--align-right', 'auto');
+                }
+                
             },
             focusEnter: function () {
                 this.index = -1;
@@ -121,7 +161,8 @@ export default {
             },
             go: function (data) {
                 this.focusEnter();
-                this.callbackdata(data);
+                this.itemselected = data;
+                this.keyword=data[this.fielddatashow];
             }
         }
     }
