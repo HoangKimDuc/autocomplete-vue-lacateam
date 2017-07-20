@@ -1,12 +1,12 @@
 export default {
         template:`  <div class="has-feedback dropdown" :class="{open:showlist}">
         <input type="text" class="form-control dropdown-toggle" data-toggle="dropdown" id="search"
-        :placeholder="placeholder" 
+        :placeholder="placeholder" :name="name_input"
         v-model="keyword"
         @input="input"
         @keyup="keyup"
         @focus="showlist=(items.length > 0 ? true : false)">
-        <span class="form-control-feedback" :class="icon"></span>
+        <span v-if="icon!='false'" class="form-control-feedback" :class="icon"></span>
         <ul class="dropdown-menu">
            <li v-for="item in items">
             <a
@@ -56,8 +56,11 @@ export default {
             iconleft:{
                 type: String,
                 default: 'false'
+            },
+            name_input:{
+                type: String,
+                default: 'search'
             }
-
         },
         data() {
             return {
