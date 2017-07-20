@@ -9,7 +9,7 @@ export default {
         <span class="form-control-feedback" :class="icon"></span>
         <ul class="dropdown-menu">
            <li v-for="item in items">
-            <a href="#"
+            <a
             @click="go(item)" 
             @keyup="keyup"
             @keyup.enter="go(item)">
